@@ -34,7 +34,7 @@ class Clock extends React.Component {
   render() {
     return (
       <div>
-        <h1>Hello, world!</h1>
+        <h1>Hello! This is a Clock.</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
 
       </div>
@@ -60,9 +60,12 @@ class Toggle extends React.Component {
 
   render() {
     return (
-      <button onClick={this.handleClick}>
-        {this.state.isToggleOn ? 'ON' : 'OFF'}
-      </button>
+      <div>
+        <h1>Hello! This is a Toggle.</h1>
+        <button onClick={this.handleClick}>
+          {this.state.isToggleOn ? 'ON' : 'OFF'}
+        </button>
+      </div>
     )
   }
 }
@@ -79,25 +82,21 @@ class GuestGreeting extends React.Component {
   }
 }
 class Greeting extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   
   render(){
     const isLoggedIn = this.props.isLoggedIn;
-    if(isLoggedIn) {
-      return <UserGreeting />
-    } 
-    return <GuestGreeting />
+    return (
+      <div>
+        { isLoggedIn ? <UserGreeting /> : <GuestGreeting /> }
+      </div>
+    )
   }
 }
 
 
 
 class LoginButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -107,9 +106,7 @@ class LoginButton extends React.Component {
   }
 }
 class LogoutButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -152,12 +149,86 @@ class LoginControl extends React.Component {
 
     return (
       <div>
+        <h1>Hello! This is a LoginControl.</h1>
         <Greeting isLoggedIn={isLoggedIn} />
         {button}
+        <div>
+          The user is <strong>{isLoggedIn ? 'currently' : 'not'}</strong> logged in.
+        </div>
       </div>
     );
   }
 }
+
+class Mailbox extends React.Component {
+
+  render() {
+    const unreadMessages = this.props.unreadMessages;
+
+    return (
+      <div>
+        <h1>Hello! This is Mailbox</h1>
+        {
+          unreadMessages.length >0 &&
+          <h2>
+              You have {unreadMessages.length} unread messages.
+          </h2>
+        }
+      </div>
+    );
+  }
+}
+
+const messages = ['React', 'Re: React', 'Re:Re: React'];
+
+
+function WarningBanner(props) {
+  if(!props.warn) {
+    return null;
+  }
+
+  return (
+    <div> Warning!</div>
+  )
+}
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showWarning: true
+    };
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
+  handleToggleClick() {
+    this.setState(prevState => ({
+      showWarning: !prevState.showWarning
+    }))
+  }
+  render() {
+    return (
+      <div>
+        <h1>Hello! This is a Page.</h1>
+        <WarningBanner warn = {this.state.showWarning} />
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? 'Hide':'Show'}
+        </button>
+      </div>
+    )
+  }
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) => 
+    <li key={number.toString()}>{number}</li>
+  );
+  return (
+    <ul>{listItems}</ul>
+  )
+}
+const numbers = [1,2,3,4,5];
+
 class MyRoot extends React.Component {
   render() {
     return (
@@ -165,6 +236,9 @@ class MyRoot extends React.Component {
         <Clock />
         <Toggle />
         <LoginControl />
+        <Mailbox unreadMessages={messages} />
+        <Page />
+        <NumberList numbers={numbers} />
       </div>
     )
   }
