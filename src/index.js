@@ -96,10 +96,6 @@ class Greeting extends React.Component {
 
 
 class LoginButton extends React.Component {
-<<<<<<< HEAD
-
-=======
->>>>>>> temporary
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -109,10 +105,7 @@ class LoginButton extends React.Component {
   }
 }
 class LogoutButton extends React.Component {
-<<<<<<< HEAD
 
-=======
->>>>>>> temporary
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -184,7 +177,6 @@ class Mailbox extends React.Component {
     );
   }
 }
-<<<<<<< HEAD
 
 const messages = ['React', 'Re: React', 'Re:Re: React'];
 
@@ -275,9 +267,14 @@ function Blog(props) {
   ));
   return (
     <div>
-      {sidebar}
-      <hr />
-      {content}
+      <h1>
+          Hello! This is a Blog.
+        </h1>
+      <div>
+        {sidebar}
+        <hr />
+        {content}
+      </div>
     </div>
   )
 }
@@ -305,13 +302,18 @@ class NameForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <textarea value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <h1>
+          Hello! This is a NameForm.
+        </h1>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <textarea value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     )
   }
 }
@@ -325,22 +327,29 @@ function NumberList(props) {
     <ul>{listItems}</ul>
   )
 }
-const numbers = [1,2,3,4,5];
 
 
 class FlavorForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value:'coconut'
+      value:'coconut',
+      multipleValue:['b','c']
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeForSelect1 = this.handleChangeForSelect1.bind(this);
+    this.handleChangeForSelect2 = this.handleChangeForSelect2.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChangeForSelect1(event) {
     this.setState({
       value: event.target.value
+    });
+  }
+
+  handleChangeForSelect2(event) {
+    this.setState({
+      multipleValue: event.target.value
     });
   }
 
@@ -351,22 +360,83 @@ class FlavorForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Pick your favorite：
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="grapefruit">Grapefruit</option>
-            <option value="lime">Lime</option>
-            <option value="coconut">Coconut</option>
-            <option value="mango">Mango</option>
-          </select>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <h1>
+          Hello! This is a FlovorForm.
+        </h1>
+        <form onSubmit={this.handleSubmit}>
+          <p>
+          <label>
+            Pick your favorite：
+            <select value={this.state.value} onChange={this.handleChangeForSelect1}>
+              <option value="grapefruit">Grapefruit</option>
+              <option value="lime">Lime</option>
+              <option value="coconut">Coconut</option>
+              <option value="mango">Mango</option>
+            </select>
+          </label>
+          </p>
+          <p>
+          <label>
+            Pic multiple:
+            <select multiple={true} value={this.state.multipleValue} onChange={this.handleChangeForSelect2}>
+              <option value='a'>a</option>
+              <option value='b'>b</option>
+              <option value='c'>c</option>
+              <option value='d'>d</option>
+              <option value='e'>e</option>
+            </select>
+          </label>
+          </p>
+          <p>
+          <input type="submit" value="Submit" />
+          </p>
+        </form>
+      </div>
     );
   }
 }
 
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests:2
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]:value
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello! This is a Reservation.</h1>
+        <form>
+          <label>
+            Is going:
+            <input name="isGoing" type="checkbox" checked={this.state.isGoing} onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            Number of guests:
+            <input name="numberOfGuests" type="number" value={this.state.numberOfGuests} onChange={this.handleInputChange} />
+          </label>
+        </form>
+      </div>
+    )
+  }
+}
 class MyRoot extends React.Component {
   render() {
     return (
@@ -382,6 +452,7 @@ class MyRoot extends React.Component {
         <Blog posts={posts} />
         <NameForm />
         <FlavorForm />
+        <Reservation />
       </div>
     )
   }
@@ -391,6 +462,7 @@ ReactDOM.render(
   <MyRoot />,
   document.getElementById('root')
 );
+
 
 
 
