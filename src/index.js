@@ -96,7 +96,10 @@ class Greeting extends React.Component {
 
 
 class LoginButton extends React.Component {
+<<<<<<< HEAD
 
+=======
+>>>>>>> temporary
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -106,7 +109,10 @@ class LoginButton extends React.Component {
   }
 }
 class LogoutButton extends React.Component {
+<<<<<<< HEAD
 
+=======
+>>>>>>> temporary
   render() {
     return (
       <button onClick={this.props.onClick}>
@@ -178,6 +184,7 @@ class Mailbox extends React.Component {
     );
   }
 }
+<<<<<<< HEAD
 
 const messages = ['React', 'Re: React', 'Re:Re: React'];
 
@@ -217,6 +224,97 @@ class Page extends React.Component {
     )
   }
 }
+/** Wednesday do */
+const numbers = [1,2,3,4,5];
+
+function ListItem(props) {
+  return <li>{props.value}</li>;
+}
+function NumberList(props) {
+  const numbers = props.numbers;
+
+  return (
+    <ul>
+      {numbers.map((number) => 
+          <ListItem key={number.toString()} value={number} />
+      )}
+    </ul>
+  );
+}
+
+const posts = [
+  {
+    id: 1,
+    title:'Hello world',
+    content:'Welcome to learning React!'
+  },
+  {
+    id: 2,
+    title: 'Installation',
+    content: 'You can install React from npm.'
+  }
+]
+function Blog(props) {
+  const sidebar = (
+    <ul>
+      {props.posts.map((post) => {
+        return (
+            <li key={post.id}>
+              {post.title}
+            </li>
+          )
+        })
+      }
+    </ul>
+  );
+  const content = props.posts.map((post) => (
+    <div id={post.id} key={post.id}>
+      <h3>{post.title}</h3>
+      <p>{post.content}</p>
+    </div>
+  ));
+  return (
+    <div>
+      {sidebar}
+      <hr />
+      {content}
+    </div>
+  )
+}
+
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Please write an essay about your favorite DOM element'
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value.toUpperCase()
+    });
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted:' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <textarea value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    )
+  }
+}
 
 function NumberList(props) {
   const numbers = props.numbers;
@@ -229,6 +327,46 @@ function NumberList(props) {
 }
 const numbers = [1,2,3,4,5];
 
+
+class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value:'coconut'
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+  handleSubmit(event) {
+    alert('Your favorite flavor is:' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Pick your favorite：
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="grapefruit">Grapefruit</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+            <option value="mango">Mango</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
 class MyRoot extends React.Component {
   render() {
     return (
@@ -236,13 +374,19 @@ class MyRoot extends React.Component {
         <Clock />
         <Toggle />
         <LoginControl />
+
         <Mailbox unreadMessages={messages} />
         <Page />
+
         <NumberList numbers={numbers} />
+        <Blog posts={posts} />
+        <NameForm />
+        <FlavorForm />
       </div>
     )
   }
 }
+
 ReactDOM.render(
   <MyRoot />,
   document.getElementById('root')
