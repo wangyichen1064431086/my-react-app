@@ -493,7 +493,7 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
-    this.handleFahrenheitChange.bind(this);
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
     this.state = {
       temperature:'',
       scale:'c'
@@ -527,6 +527,54 @@ class Calculator extends React.Component {
     );
   }
 }
+
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  )
+}
+
+function WelcomeDialog() {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+    </FancyBorder>
+  )
+}
+
+function SplitPane(props) {
+  return (
+    <div className="SplitPane">
+      <div className="SplitPane-left">
+        {props.left}
+      </div>
+      <div className="SplitPane-right">
+        {props.right}
+      </div>
+    </div>
+  );
+}
+function Contacts() {
+  return <div className="Contacts" />;
+}
+
+function Chat() {
+  return <div className="Chat" />;
+}
+
+function App() {
+  return (
+    <SplitPane left={<Contacts />} right={<Chat />} />
+  );
+}
+
 class MyRoot extends React.Component {
   render() {
     return (
@@ -544,6 +592,8 @@ class MyRoot extends React.Component {
         <FlavorForm />
         <Reservation />
         <Calculator />
+        <WelcomeDialog />
+        <App />
       </div>
     )
   }
