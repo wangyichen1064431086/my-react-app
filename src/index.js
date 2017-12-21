@@ -626,9 +626,11 @@ class ProductCategoryRow extends React.Component {
 class ProductRow extends React.Component {
   render() {
     const product = this.props.product;
-    const name = product.stocked ? product.name : <span style={{color: 'red'}}>
+    const name = product.stocked ? 
+      product.name : 
+      <span style={{color: 'red'}}>
       {product.name}
-    </span>;//如果库存为false就显示为红色。
+      </span>;//如果库存为false就显示为红色。
 
     return (
       <tr>
@@ -642,9 +644,71 @@ class ProductRow extends React.Component {
 
 class ProductTable extends React.Component {
   render() {
+    const rows = [];
+    let lastCategory = null;
 
+    this.props.products.forEach((product) => {
+      if (product.category !== lastCategory) { //如果和上一项product的category不一样，则插入ProductCategoryRow;如果一样就不插入ProductCategoryRow，直接执行下面的——插入ProductRow
+        rows.push(
+          <ProductCategoryRow category={product.category} key={product.category} />
+        );
+      }
+      rows.push(
+        <ProductRow product={product} key={product.name} />
+      );
+      lastCategory = product.category;
+    });
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    )
   }
 }
+
+class SearchBar extends React.Component {
+  render() {
+    return (
+      <form>
+        <input type="text" placeholder="Search..." />
+        <p>
+          <input type="checkbox" />
+          Only show products in stock
+        </p>
+      </form>
+    );
+  }
+}
+
+class FilterableProductTable extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello! This is a FilterableProductTabl.</h1>
+        <SearchBar />
+        <ProductTable products={this.props.products} />
+      </div>
+    );
+  }
+}
+
+const PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
 
 class MyRoot extends React.Component {
   render() {
@@ -666,6 +730,7 @@ class MyRoot extends React.Component {
         <WelcomeDialog />
         <SignUpDialog />
         <App />
+        <FilterableProductTable products={PRODUCTS} />
       </div>
     )
   }
