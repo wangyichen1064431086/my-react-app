@@ -217,20 +217,6 @@ class Page extends React.Component {
 /** Wednesday do */
 const numbers = [1,2,3,4,5];
 
-function ListItem(props) {
-  return <li>{props.value}</li>;
-}
-function NumberList(props) {
-  const numbers = props.numbers;
-
-  return (
-    <ul>
-      {numbers.map((number) => 
-          <ListItem key={number.toString()} value={number} />
-      )}
-    </ul>
-  );
-}
 
 const posts = [
   {
@@ -644,10 +630,20 @@ class ProductRow extends React.Component {
 
 class ProductTable extends React.Component {
   render() {
+    const filterText = this.props.filterText;
+    const inStockOnly = this.props.inStockOnly;
+
     const rows = [];
     let lastCategory = null;
 
     this.props.products.forEach((product) => {
+      if (product.name.indexOf(filterText) === -1) {//如果该product.name中不含子字符串filterText，则返回。就是输入的东西得是product.name的子字符串，才会进行后面的
+        return;
+      }
+      if (inStockOnly && !product.stocked) { 
+        // inStockOnly为true,则如果product.stock为false就返回，即只有product.storck为true的可以进行下一步；inStockOnly为false,则该条件恒为false，即都可以进行下一步。
+        return;
+      }
       if (product.category !== lastCategory) { //如果和上一项product的category不一样，则插入ProductCategoryRow;如果一样就不插入ProductCategoryRow，直接执行下面的——插入ProductRow
         rows.push(
           <ProductCategoryRow category={product.category} key={product.category} />
@@ -676,12 +672,32 @@ class ProductTable extends React.Component {
 }
 
 class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+  handleFilterTextChange(e) {
+    this.props.onFilterTextChange(e.target.value);
+  }
+  handleInStockChange(e) {
+    this.props.onInStockChange(e.target.checked);
+  }
   render() {
     return (
       <form>
-        <input type="text" placeholder="Search..." />
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          value={this.props.filterText} 
+          onChange={this.handleFilterTextChange}
+        />
         <p>
-          <input type="checkbox" />
+          <input 
+            type="checkbox" 
+            checked={this.props.inStockOnly} 
+            onChange={this.handleInStockChange} 
+          />
           Only show products in stock
         </p>
       </form>
@@ -690,16 +706,45 @@ class SearchBar extends React.Component {
 }
 
 class FilterableProductTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText:'',
+      inStockOnly:false
+    };
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+  handleFilterTextChange(filterText) {
+    this.setState({
+      filterText:filterText
+    });
+  }
+  handleInStockChange(inStockOnly) {
+    this.setState({
+      inStockOnly:inStockOnly
+    })
+  }
   render() {
     return (
       <div>
         <h1>Hello! This is a FilterableProductTabl.</h1>
-        <SearchBar />
-        <ProductTable products={this.props.products} />
+        <SearchBar 
+          filterText={this.state.filterText} 
+          inStockOnly={this.state.inStockOnly}
+          onFilterTextChange={this.handleFilterTextChange}
+          onInStockChange={this.handleInStockChange}
+        />
+        <ProductTable 
+          products={this.props.products} 
+          filterText={this.state.filterText} 
+          inStockOnly={this.state.inStockOnly} 
+        />
       </div>
     );
   }
 }
+
 
 const PRODUCTS = [
   {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
