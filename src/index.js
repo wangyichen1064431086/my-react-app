@@ -755,6 +755,12 @@ const PRODUCTS = [
   {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
 ];
 
+const Button = props => {
+  const { kind, ...other } = props;
+  const className = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
+  return <button className={className}  {...other} />;
+}
+
 class MyRoot extends React.Component {
   render() {
     return (
@@ -776,6 +782,11 @@ class MyRoot extends React.Component {
         <SignUpDialog />
         <App />
         <FilterableProductTable products={PRODUCTS} />
+        
+        <Button kind="primary" onClick={() => console.log("clicked!")} >
+          HelloWorld!
+        </Button>
+        
       </div>
     )
   }
