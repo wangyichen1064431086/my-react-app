@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 //import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import PropTypes from 'prop-types';
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -776,11 +777,40 @@ function ListOfTenThings() {
       </Repeat>
   )
 }
-
+class NewGreeting extends React.Component {
+  render() {
+    return (
+      <h1>Hello,{this.props.name}</h1>
+    )
+  }
+}
+NewGreeting.propTypes = {
+  name: PropTypes.string
+};
+NewGreeting.defaultProps = {
+  name:'Hahaha'
+};
+class MyComponent extends React.Component {
+  render() {
+    const children = this.props.children;
+    return (
+      <div>
+        {children}
+      </div>
+    )
+  }
+}
+MyComponent.propTypes = {
+  children: PropTypes.element.isRequired
+}
 class MyRoot extends React.Component {
   render() {
     return (
       <div>
+        <MyComponent>
+          <p>I love you </p>
+        </MyComponent>
+        <NewGreeting />
         <Clock />
         <Toggle />
         <LoginControl />
