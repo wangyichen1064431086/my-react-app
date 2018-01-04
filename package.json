@@ -9,8 +9,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow",
+    "build":"tsc"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.62.0",
+    "typescript": "^2.6.2"
   }
 }

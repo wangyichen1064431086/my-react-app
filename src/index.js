@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -387,8 +389,8 @@ class Reservation extends React.Component {
     super(props);
     this.state = {
       isGoing: true,
-      numberOfGuests:2
-    }
+      numberOfGuests: 2
+    };
     this.handleInputChange = this.handleInputChange.bind(this);
 
   }
