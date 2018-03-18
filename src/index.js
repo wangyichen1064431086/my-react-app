@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 //import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
+import {EventEmitter} from 'events';// node原生模块
 
 //HOC: 1.属性继承
 const MyContainer = (WrappedComponent) => 
@@ -57,4 +58,3 @@ ReactDOM.render(
 
 
 
-registerServiceWorker();
